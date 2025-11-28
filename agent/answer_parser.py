@@ -28,6 +28,9 @@ def extract_answer(text, question_type="general"):
         return ""
     text = text.strip()
     
+    if question_type == "coding":
+        return extract_coding(text)
+    
     boxed = re.search(r"\\boxed\{([^}]+)\}", text)
     if boxed:
         return boxed.group(1).strip()
@@ -49,3 +52,18 @@ def extract_answer(text, question_type="general"):
 
 def normalize_answer(answer):
     return str(answer).strip().lower()
+    
+def extract_coding(text):
+    text = re.sub(r'^```python\s*\n?', '', text)
+    text = re.sub(r'^```\s*\n?', '', text)
+    text = re.sub(r'\n?```$', '', text)
+    
+    lines = text.strip().split('\n')
+    body = []
+    for line in lines:
+        if line.strip().startswith('import ') or line.strip().startswith('from '):
+            continue
+        if line.strip().startswith('def '):
+            continue
+        body.append(line)
+    return '\n'.join(body).strip()
