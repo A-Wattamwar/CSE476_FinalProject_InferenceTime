@@ -27,13 +27,13 @@ def extract_answer(text, question_type="general"):
     if not text:
         return ""
     text = text.strip()
-
+    
     if question_type == "coding":
         return extract_coding(text)
     
     if question_type == "future":
         return extract_future(text)
-
+    
     if question_type == "planning":
         return extract_planning(text)
     
@@ -55,24 +55,6 @@ def extract_answer(text, question_type="general"):
         return text
     
     return text.split('\n')[0][:200]
-
-def normalize_answer(answer):
-    return str(answer).strip().lower()
-
-def extract_coding(text):
-    text = re.sub(r'^```python\s*\n?', '', text)
-    text = re.sub(r'^```\s*\n?', '', text)
-    text = re.sub(r'\n?```$', '', text)
-    
-    lines = text.strip().split('\n')
-    body = []
-    for line in lines:
-        if line.strip().startswith('import ') or line.strip().startswith('from '):
-            continue
-        if line.strip().startswith('def '):
-            continue
-        body.append(line)
-    return '\n'.join(body).strip()
 
 def extract_future(text):
     boxed = re.search(r'\\boxed\{([^}]+)\}', text)
@@ -128,3 +110,21 @@ def extract_planning(text):
         return '\n'.join(formatted)
     
     return text
+
+def extract_coding(text):
+    text = re.sub(r'^```python\s*\n?', '', text)
+    text = re.sub(r'^```\s*\n?', '', text)
+    text = re.sub(r'\n?```$', '', text)
+    
+    lines = text.strip().split('\n')
+    body = []
+    for line in lines:
+        if line.strip().startswith('import ') or line.strip().startswith('from '):
+            continue
+        if line.strip().startswith('def '):
+            continue
+        body.append(line)
+    return '\n'.join(body).strip()
+
+def normalize_answer(answer):
+    return str(answer).strip().lower()
