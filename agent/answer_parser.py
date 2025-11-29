@@ -27,15 +27,15 @@ def extract_answer(text, question_type="general"):
     if not text:
         return ""
     text = text.strip()
-    
-    if question_type == "coding":
-        return extract_coding(text)
 
     if question_type == "coding":
         return extract_coding(text)
     
     if question_type == "future":
         return extract_future(text)
+
+    if question_type == "planning":
+        return extract_planning(text)
     
     boxed = re.search(r"\\boxed\{([^}]+)\}", text)
     if boxed:
@@ -103,3 +103,28 @@ def extract_future(text):
         return "['" + "', '".join(clean[:5]) + "']"
     
     return f"['{text[:100]}']"
+
+def extract_planning(text):
+    actions = re.findall(r'\([a-z][\w-]*(?:\s+[\w-]+)*\)', text, re.IGNORECASE)
+    if actions:
+        valid = [a for a in actions if not any(word in a.lower() for word in ['step', 'analyze', 'let', 'problem'])]
+        if valid:
+            return '\n'.join(valid)
+    
+    text = re.sub(r'object[_\s]*', '', text, flags=re.IGNORECASE)
+    text = re.sub(r'\s+from\s+', ' ', text, flags=re.IGNORECASE)
+    
+    parts = re.split(r'[\n,;]+', text)
+    formatted = []
+    for part in parts:
+        part = part.strip()
+        if not part:
+            continue
+        words = re.findall(r'[a-z]\w*', part, re.IGNORECASE)
+        if words:
+            formatted.append('(' + ' '.join(words) + ')')
+    
+    if formatted:
+        return '\n'.join(formatted)
+    
+    return text
