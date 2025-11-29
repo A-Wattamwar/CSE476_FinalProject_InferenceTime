@@ -30,6 +30,12 @@ def extract_answer(text, question_type="general"):
     
     if question_type == "coding":
         return extract_coding(text)
+
+    if question_type == "coding":
+        return extract_coding(text)
+    
+    if question_type == "future":
+        return extract_future(text)
     
     boxed = re.search(r"\\boxed\{([^}]+)\}", text)
     if boxed:
@@ -52,7 +58,7 @@ def extract_answer(text, question_type="general"):
 
 def normalize_answer(answer):
     return str(answer).strip().lower()
-    
+
 def extract_coding(text):
     text = re.sub(r'^```python\s*\n?', '', text)
     text = re.sub(r'^```\s*\n?', '', text)
@@ -67,3 +73,33 @@ def extract_coding(text):
             continue
         body.append(line)
     return '\n'.join(body).strip()
+
+def extract_future(text):
+    boxed = re.search(r'\\boxed\{([^}]+)\}', text)
+    if boxed:
+        val = boxed.group(1).strip()
+        try:
+            float(val)
+            return f"[{val}]"
+        except:
+            return f"['{val}']"
+    
+    list_match = re.search(r'\[.+?\]', text, re.DOTALL)
+    if list_match:
+        content = list_match.group(0)
+        content = re.sub(r'\\boxed\{([^}]+)\}', r'\1', content)
+        if content.startswith('[') and content.endswith(']'):
+            return content
+    
+    text_lower = text.lower()
+    if text_lower.startswith('yes') or 'yes' in text_lower[:20]:
+        return "['Yes']"
+    if text_lower.startswith('no') or 'no' in text_lower[:20]:
+        return "['No']"
+    
+    items = re.split(r'[,、，]', text)
+    if len(items) > 1:
+        clean = [i.strip() for i in items if i.strip()]
+        return "['" + "', '".join(clean[:5]) + "']"
+    
+    return f"['{text[:100]}']"
