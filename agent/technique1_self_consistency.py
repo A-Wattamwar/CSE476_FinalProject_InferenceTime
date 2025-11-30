@@ -4,6 +4,8 @@ from answer_parser import extract_answer, normalize_answer
 
 def self_consistency(problem, q_type="general", num_samples=3):
     system = "Give only the final answer. No explanation."
+    if q_type == "coding":
+        system = "Write only the function body code. No imports, no function definition."
     
     answers = []
     for i in range(num_samples):
@@ -16,6 +18,9 @@ def self_consistency(problem, q_type="general", num_samples=3):
     
     if not answers:
         return {"answer": "", "confidence": 0.0}
+    
+    if q_type == "coding":
+        return {"answer": answers[0], "confidence": 0.8}
     
     counts = Counter([normalize_answer(a) for a in answers])
     best, count = counts.most_common(1)[0]
