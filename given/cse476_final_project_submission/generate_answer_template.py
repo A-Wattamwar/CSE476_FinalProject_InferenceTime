@@ -11,9 +11,13 @@ an answers JSON file where each entry contains a string under the "output" key.
 
 from __future__ import annotations
 
+import sys
 import json
 from pathlib import Path
 from typing import Any, Dict, List
+
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "agent"))
+from agent import solve
 
 
 INPUT_PATH = Path("cse_476_final_project_test_data.json")
@@ -31,11 +35,10 @@ def load_questions(path: Path) -> List[Dict[str, Any]]:
 def build_answers(questions: List[Dict[str, Any]]) -> List[Dict[str, str]]:
     answers = []
     for idx, question in enumerate(questions, start=1):
-        # Example: assume you have an agent loop that produces an answer string.
-        # real_answer = agent_loop(question["input"])
-        # answers.append({"output": real_answer})
-        placeholder_answer = f"Placeholder answer for question {idx}"
-        answers.append({"output": placeholder_answer})
+        print(f"Processing {idx}/{len(questions)}...", end='\r')
+        real_answer = solve(question["input"])
+        answers.append({"output": real_answer})
+    print()
     return answers
 
 
