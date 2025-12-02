@@ -18,3 +18,44 @@
    - Runs all techniques and collects results
    - Combines answers using confidence-weighted voting
    - Returns the highest-confidence answer
+
+## Development & Evaluation
+
+- Developed and evaluated using the provided dev data (`cse476_final_project_dev_data.json`)
+- Tested with a script that samples random questions from each domain
+- Iteratively improved answer parsing based on output format analysis
+
+## How to Run on a New Test Case
+
+```python
+import sys
+sys.path.insert(0, "path/to/agent")
+from agent import solve
+
+question = "Your question here"
+answer = solve(question)
+print(answer)
+```
+
+## Generate Submission File
+
+```bash
+cd given/cse476_final_project_submission
+python3 generate_answer_template.py
+```
+
+This generates `cse_476_final_project_answers.json` for submission.
+
+## Requirements
+
+```bash
+pip3 install requests
+```
+
+I originally tried installing requests with the code above. 
+But that didn’t work on my Mac — probably because macOS protects certain system‑managed Python packages. The command that actually worked was:
+
+```bash
+pip3 install --break-system-packages requests
+```
+
