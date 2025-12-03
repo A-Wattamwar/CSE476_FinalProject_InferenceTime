@@ -83,3 +83,10 @@ technique4_pal.py               # Program-aided language for math
 README.md                       # This file
 ```
 
+## Author
+
+**Ayush Sachin Wattamwar**
+
+This project was developed as a final project for a course at Arizona State University. 
+
+CSE476 - Introduction to Natural Language Processing.
