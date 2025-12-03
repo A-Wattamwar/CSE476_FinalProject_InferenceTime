@@ -19,6 +19,13 @@
    - Combines answers using confidence-weighted voting
    - Returns the highest-confidence answer
 
+### Additional Highlights
+
+- Type-specific prompts for each question category
+- Type-specific answer extraction (`answer_parser.py`, `extract_answer()` and helper functions)
+- PAL technique improves math accuracy through code execution
+- Under 20 API calls per question
+
 ## Development & Evaluation
 
 - Developed and evaluated using the provided dev data (`cse476_final_project_dev_data.json`)
@@ -75,3 +82,4 @@ technique3_refinement.py        # Iterative refinement
 technique4_pal.py               # Program-aided language for math
 README.md                       # This file
 ```
+
