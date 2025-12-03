@@ -48,14 +48,30 @@ This generates `cse_476_final_project_answers.json` for submission.
 
 ## Requirements
 
+- ASU VPN or ASU network connection (required to access the API)
+
+- Python Requests
+
 ```bash
 pip3 install requests
 ```
 
 I originally tried installing requests with the code above. 
-But that didn’t work on my Mac — probably because macOS protects certain system‑managed Python packages. The command that actually worked was:
+But that didn’t work on my Mac, probably because macOS protects certain system‑managed Python packages. The command that actually worked was:
 
 ```bash
 pip3 install --break-system-packages requests
 ```
 
+## Project Structure
+
+```
+agent.py                        # Main orchestrator - solve() function
+answer_parser.py                # Question classifier + answer extraction
+api.py                          # API wrapper for LLM calls
+technique1_self_consistency.py  # Self-consistency with majority voting
+technique2_cot_verify.py        # Chain-of-thought with verification
+technique3_refinement.py        # Iterative refinement
+technique4_pal.py               # Program-aided language for math
+README.md                       # This file
+```
