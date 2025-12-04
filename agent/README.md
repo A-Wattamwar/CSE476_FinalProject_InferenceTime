@@ -1,5 +1,7 @@
 # Reasoning Agent - CSE 476 Final Project
 
+**GitHub Repository:** https://github.com/A-Wattamwar/CSE476_FinalProject_InferenceTime.git
+
 ## How the Agent Works
 
 ### Three Core Components
@@ -25,6 +27,31 @@
 - Type-specific answer extraction (`answer_parser.py`, `extract_answer()` and helper functions)
 - PAL technique improves math accuracy through code execution
 - Under 20 API calls per question
+
+## Setup and Installation
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/A-Wattamwar/CSE476_FinalProject_InferenceTime.git
+cd CSE476_FinalProject_InferenceTime
+```
+
+## Requirements
+
+- ASU VPN or ASU network connection (required to access the API)
+
+- Python Requests
+
+```bash
+pip3 install requests
+```
+
+I originally tried installing requests with the code above. 
+But that didn’t work on my Mac, probably because macOS protects certain system‑managed Python packages. The command that actually worked was:
+
+```bash
+pip3 install --break-system-packages requests
+```
 
 ## Development & Evaluation
 
@@ -52,23 +79,6 @@ python3 generate_answer_template.py
 ```
 
 This generates `cse_476_final_project_answers.json` for submission.
-
-## Requirements
-
-- ASU VPN or ASU network connection (required to access the API)
-
-- Python Requests
-
-```bash
-pip3 install requests
-```
-
-I originally tried installing requests with the code above. 
-But that didn’t work on my Mac, probably because macOS protects certain system‑managed Python packages. The command that actually worked was:
-
-```bash
-pip3 install --break-system-packages requests
-```
 
 ## Project Structure
 
