@@ -16,6 +16,9 @@ Only output the Python code, nothing else. No markdown, no explanation."""
     code = re.sub(r'^```\s*', '', code)
     code = re.sub(r'\s*```$', '', code)
     
+    if len(code) > 500 or 'while ' in code or 'for ' in code:
+        return {"answer": "", "confidence": 0.0}
+    
     try:
         local_vars = {}
         exec(code, {"__builtins__": {}}, local_vars)

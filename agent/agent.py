@@ -29,9 +29,13 @@ def solve(problem):
     if not results:
         return ""
     
+    if q_type in ["coding", "planning"]:
+        best_result = max(results, key=lambda x: x["confidence"])
+        return best_result["answer"]
+    
     weights = {}
     for r in results:
-        ans = normalize_answer(r["answer"])
+        ans = normalize_answer(r["answer"]) if q_type not in ["future"] else r["answer"]
         conf = r["confidence"]
         weights[ans] = weights.get(ans, 0) + conf
     
